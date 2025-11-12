@@ -19,8 +19,12 @@ app.use(express.json());
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+}).then(() => {
+  console.log("✅ MongoDB connected");
+}).catch((err) => {
+  console.error("❌ MongoDB connection error:", err.message);
+  process.exit(1);
 });
-console.log("✅ MongoDB connected");
 
 // Routes
 const stockRoutes = require("./routes/stocks");
@@ -35,21 +39,21 @@ setInterval(async () => {
   const stocks = await Stock.find();
   for (const stock of stocks) {
     try {
-     
       const quote = await yahooFinance.quote(stock.symbol);
       const price = quote?.regularMarketPrice;
-      stock.users.forEach( async userId => {
-        const user = await User.findById({_id:userId})
-      if (price >= stock.threshold && !stock.alertSent) {
-        await sendEmail(
-          `🚨 ${stock.symbol} hit ₹${price}`,
-          `The stock ${stock.symbol} reached your threshold ₹${stock.threshold}`
-          ,user.email
-        );
-        stock.alertSent = true;
-        await stock.save();
+      
+      for (const userId of stock.users) {
+        const user = await User.findById(userId);
+        if (price >= stock.threshold && !stock.alertSent) {
+          await sendEmail(
+            `🚨 ${stock.symbol} hit ₹${price}`,
+            `The stock ${stock.symbol} reached your threshold ₹${stock.threshold}`,
+            user.email
+          );
+          stock.alertSent = true;
+          await stock.save();
+        }
       }
-    });
     } catch (err) {
       console.error("Error checking stock:", err.message);
     }
