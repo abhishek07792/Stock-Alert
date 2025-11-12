@@ -15,6 +15,7 @@ body {
 .dashboard-container {
   display: flex;
   height: 100vh;
+  flex-wrap: wrap;
 }
 
 /* Sidebar */
@@ -27,11 +28,26 @@ body {
   padding: 20px;
 }
 
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    flex-direction: row;
+    padding: 15px;
+  }
+}
+
 .logo {
   font-size: 1.5rem;
   color: #58a6ff;
   font-weight: bold;
   margin-bottom: 2rem;
+}
+
+@media (max-width: 768px) {
+  .logo {
+    font-size: 1.2rem;
+    margin-bottom: 0;
+  }
 }
 
 .nav-link {
@@ -58,6 +74,13 @@ body {
   overflow-y: auto;
 }
 
+@media (max-width: 768px) {
+  .main {
+    width: 100%;
+    padding: 20px;
+  }
+}
+
 .header {
   display: flex;
   justify-content: space-between;
@@ -65,20 +88,11 @@ body {
   margin-bottom: 30px;
 }
 
-.add-btn {
-  background-color: #238636;
-  color: white;
-  padding: 10px 16px;
-  border: none;
-  border-radius: 6px;
-  font-weight: 600;
-  cursor: pointer;
-  text-decoration: none;
-  transition: background 0.3s;
-}
-
-.add-btn:hover {
-  background-color: #2ea043;
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    gap: 15px;
+  }
 }
 
 /* Stock Cards */
@@ -88,12 +102,30 @@ body {
   gap: 20px;
 }
 
+@media (max-width: 768px) {
+  .stock-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .stock-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .stock-card {
   background-color: #1c2128;
   border: 1px solid #30363d;
   border-radius: 10px;
   padding: 20px;
   transition: transform 0.2s, border-color 0.3s;
+}
+
+@media (max-width: 480px) {
+  .stock-card {
+    padding: 15px;
+  }
 }
 
 .stock-card:hover {
