@@ -23,7 +23,7 @@ export default function Login() {
     <div className="login-container">
       <div className="login-box">
         <h1>StockAlert</h1>
-        <form onSubmit={handleLogin}>
+        <form onSubmit={handleLogin} method="POST">
           <input
             type="email"
             placeholder="Email"
@@ -34,7 +34,7 @@ export default function Login() {
           <input
             type="password"
             placeholder="Password"
-            value={password}
+            // value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />

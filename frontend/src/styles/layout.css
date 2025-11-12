@@ -48,6 +48,7 @@ a:hover {
 
 /* Inputs */
 input {
+  box-sizing: border-box;
   padding: 10px 12px;
   border-radius: var(--radius);
   border: 1px solid var(--border-color);

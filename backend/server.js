@@ -57,5 +57,5 @@ setInterval(async () => {
 }, CHECK_INTERVAL);
 const PORT = process.env.PORT || 5000
 app.listen(PORT, () =>
-  console.log(`🚀 Backend running on http://localhost:${PORT}`)
+  console.log(`🚀 Backend running on http://192.168.0.123:${PORT}`)
 );
