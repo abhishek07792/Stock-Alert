@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import API from "../api";
 import Sidebar from "../components/Sidebar";
 import "./Page.css";
@@ -25,7 +26,7 @@ export default function Dashboard() {
       <main className="main-content">
         <header className="page-header">
           <h2>My Watchlist</h2>
-          <a href="/add" className="btn btn-primary">+ Add Stock</a>
+          <Link to="/add" className="btn btn-primary">+ Add Stock</Link>
         </header>
 
         <div className="card-grid">
