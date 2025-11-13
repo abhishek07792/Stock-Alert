@@ -12,7 +12,13 @@ dotenv.config();
 
 const yahooFinance = new YahooFinance({ suppressNotices: ['yahooSurvey'] });
 const app = express();
-app.use(cors());
+
+app.use(cors({
+  origin: "*",
+  credentials: true,
+  allowedHeaders: ["Content-Type", "Authorization"]
+}));
+
 app.use(express.json());
 
 // MongoDB connection
