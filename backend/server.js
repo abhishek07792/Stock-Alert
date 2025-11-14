@@ -41,13 +41,38 @@ app.use("/login",loginController);
 // Background stock checker
 const CHECK_INTERVAL = 5000; // 5 sec
 
-setInterval(async () => {
+// setInterval(async () => {
+//   const stocks = await Stock.find();
+//   for (const stock of stocks) {
+//     try {
+//       const quote = await yahooFinance.quote(stock.symbol);
+//       const price = quote?.regularMarketPrice;
+      
+//       for (const userId of stock.users) {
+//         const user = await User.findById(userId);
+//         if (price >= stock.threshold && !stock.alertSent) {
+//           await sendEmail(
+//             `🚨 ${stock.symbol} hit ₹${price}`,
+//             `The stock ${stock.symbol} reached your threshold ₹${stock.threshold}`,
+//             user.email
+//           );
+//           stock.alertSent = true;
+//           await stock.save();
+//         }
+//       }
+//     } catch (err) {
+//       console.error("Error checking stock:", err.message);
+//     }
+//   }
+// }, CHECK_INTERVAL);
+
+async function checkStocks() {
   const stocks = await Stock.find();
   for (const stock of stocks) {
     try {
       const quote = await yahooFinance.quote(stock.symbol);
       const price = quote?.regularMarketPrice;
-      
+
       for (const userId of stock.users) {
         const user = await User.findById(userId);
         if (price >= stock.threshold && !stock.alertSent) {
@@ -64,7 +89,13 @@ setInterval(async () => {
       console.error("Error checking stock:", err.message);
     }
   }
-}, CHECK_INTERVAL);
+}
+
+app.get("/api/run-check", async (req, res) => {
+  await checkStocks();
+  res.send("Stock check done");
+});
+
 const PORT = process.env.PORT || 5000
 app.listen(PORT, () =>
   console.log(`🚀 Backend running on http://localhost:${PORT}`)
